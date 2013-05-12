@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +22,7 @@ public class Simulator {
 	public void run() {
 		List<InputSequence> inputSequences = simulatorDefinitions.getInputSequences();
 		for(InputSequence inputSequence : inputSequences) {
-			Set<State> currentStates = new HashSet<State>();
+			Set<String> currentStates = new HashSet<String>();
 			currentStates.add(simulatorDefinitions.getStartingState());
 			
 			currentStates = makeEpsilonTransitions(currentStates);
@@ -31,8 +30,8 @@ public class Simulator {
 			
 			List<String> alphabet = inputSequence.getAlphabet();
 			for(String symbol : alphabet) {
-				Set<State> nextStates = new HashSet<State>();
-				for(State currentState : currentStates) {
+				Set<String> nextStates = new HashSet<String>();
+				for(String currentState : currentStates) {
 					nextStates.addAll(getNextStates(currentState, symbol));
 				}
 				
@@ -47,16 +46,16 @@ public class Simulator {
 		}
 	}
 
-	private Set<State> makeEpsilonTransitions(Set<State> states) {
-		List<State> checkedStates = new ArrayList<State>();
-		Set<State> finalStates = new HashSet<State>();
+	private Set<String> makeEpsilonTransitions(Set<String> states) {
+		List<String> checkedStates = new ArrayList<String>();
+		Set<String> finalStates = new HashSet<String>();
 		
 		while(true) {
 			// There could be multiple epsilon transitions so be sure
 			// to loop again and again as long as it needs
 			boolean hasUncheckedState = false;
-			Set<State> tmpCurrentStates = new HashSet<State>();
-			for(State state : states) {
+			Set<String> tmpCurrentStates = new HashSet<String>();
+			for(String state : states) {
 				if(!checkedStates.contains(state)) {
 					checkedStates.add(state);
 					tmpCurrentStates.addAll(getNextStates(state, INPUT_EPSILON_TRANSITION_SYMBOL));
@@ -75,21 +74,16 @@ public class Simulator {
 		return finalStates;
 	}
 	
-	private String statesTextFormatting(Set<State> statesSet, boolean orderBeforePrint) {
+	private String statesTextFormatting(Set<String> statesSet, boolean orderBeforePrint) {
 		if(statesSet.size() == 0) {
-			statesSet.add(new State(OUTPUT_SYMBOL_FOR_EMPTY_STATE_LIST));
+			statesSet.add(OUTPUT_SYMBOL_FOR_EMPTY_STATE_LIST);
 		}
 		
-		List<State> states = new ArrayList<State>();
+		List<String> states = new ArrayList<String>();
 		states.addAll(statesSet);
 		
 		if(orderBeforePrint) {
-			Collections.sort(states, new Comparator<State>() {
-				@Override
-				public int compare(State o1, State o2) {
-					return o1.getValue().compareTo(o2.getValue());
-				}
-			});
+			Collections.sort(states);
 		}
 		
 		String line = "";
@@ -101,8 +95,8 @@ public class Simulator {
 		return line;
 	}
 
-	private Set<State> getNextStates(State state, String symbol) {
-		Set<State> expandedStates = new HashSet<State>();
+	private Set<String> getNextStates(String state, String symbol) {
+		Set<String> expandedStates = new HashSet<String>();
 		
 		List<Transition> transitions = simulatorDefinitions.getTransitions();
 		for(Transition transition : transitions) {

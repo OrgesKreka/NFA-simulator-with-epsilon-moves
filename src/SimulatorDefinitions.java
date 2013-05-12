@@ -5,8 +5,9 @@ public class SimulatorDefinitions {
 
 	private List<InputSequence> inputSequences;
 	
-	private State startingState;
-	private List<State> states;
+	private String startingState;
+	private List<String> states;
+	private List<String> acceptableStates;
 	
 	private List<String> alphabet;
 	private List<Transition> transitions;
@@ -14,33 +15,51 @@ public class SimulatorDefinitions {
 	public List<InputSequence> getInputSequences() {
 		return inputSequences;
 	}
+
 	public void setInputSequences(List<InputSequence> inputSequences) {
 		this.inputSequences = inputSequences;
 	}
-	public State getStartingState() {
+
+	public String getStartingState() {
 		return startingState;
 	}
-	public void setStartingState(State startingState) {
+
+	public void setStartingState(String startingState) {
 		this.startingState = startingState;
 	}
-	public List<State> getStates() {
+
+	public List<String> getStates() {
 		return states;
 	}
-	public void setStates(List<State> states) {
+
+	public void setStates(List<String> states) {
 		this.states = states;
 	}
+
+	public void setAcceptableStates(List<String> acceptableStates) {
+		this.acceptableStates = acceptableStates;
+	}
+
+	public List<String> getAcceptableStates() {
+		return acceptableStates;
+	}
+
 	public List<String> getAlphabet() {
 		return alphabet;
 	}
+
 	public void setAlphabet(List<String> alphabet) {
 		this.alphabet = alphabet;
 	}
+
 	public List<Transition> getTransitions() {
 		return transitions;
 	}
+
 	public void setTransitions(List<Transition> transitions) {
 		this.transitions = transitions;
 	}
+	
 	public void print() {
 		System.out.println("========================");
 		System.out.println("Input sequences");
@@ -54,7 +73,13 @@ public class SimulatorDefinitions {
 		
 		System.out.println("========================");
 		System.out.println("States");
-		for(State state : states) {
+		for(String state : states) {
+			System.out.println(state);
+		}
+		
+		System.out.println("========================");
+		System.out.println("Acceptable states");
+		for(String state : acceptableStates) {
 			System.out.println(state);
 		}
 		

@@ -2,21 +2,21 @@
 
 public class Transition {
 
-	private State startState;
+	private String startState;
 	private String symbol;
-	private State endState;
+	private String endState;
 	
-	public Transition(State startState, String symbol, State endState) {
+	public Transition(String startState, String symbol, String endState) {
 		this.startState = startState;
 		this.symbol = symbol;
 		this.endState = endState;
 	}
 
-	public State getEndState() {
+	public String getEndState() {
 		return endState;
 	}
 	
-	public State getStartState() {
+	public String getStartState() {
 		return startState;
 	}
 	

@@ -9,8 +9,9 @@ public class SimEnkaInputReader {
 
 	private List<InputSequence> inputSequences;
 
-	private State startingState;
-	private List<State> states;
+	private String startingState;
+	private List<String> states;
+	private List<String> acceptableStates;
 	
 	private List<String> alphabet;
 	private List<Transition> transitions;
@@ -24,11 +25,10 @@ public class SimEnkaInputReader {
 		inputSequences = extractInputSequences(inputLines.get(0));
 		
 		states = splitToStates(inputLines.get(1));
-		List<State> acceptableStates = splitToStates(inputLines.get(3));
-		applyAcceptableStates(states, acceptableStates);
+		acceptableStates = splitToStates(inputLines.get(3));
 		
 		alphabet = splitToList(inputLines.get(2));
-		startingState = new State(inputLines.get(4));
+		startingState = inputLines.get(4);
 		transitions = extractTransitions(inputLines);
 	}
 
@@ -44,32 +44,19 @@ public class SimEnkaInputReader {
 			List<String> endStates = Arrays.asList(splitByArrow[1].split(","));
 			
 			for(String endState : endStates) {
-				transitions.add(new Transition(new State(startState), symbol, new State(endState)));
+				transitions.add(new Transition(startState, symbol, endState));
 			}
 		}
 		
 		return transitions;
 	}
 	
-	private void applyAcceptableStates(List<State> allStates, List<State> acceptableStates) {
-		for(State state : allStates) {
-			if(acceptableStates != null) {
-				for(State acceptableState : acceptableStates) {
-					if(acceptableState.equals(state)) {
-						state.setAcceptable(true);
-					}
-				}
-			}
-		}
-	}
-	
-	private List<State> splitToStates(String line) {
-		List<State> states = new ArrayList<State>();
+	private List<String> splitToStates(String line) {
+		List<String> states = new ArrayList<String>();
 		String[] lineArray = line.split(",");
 		
 		for(String stateValue : lineArray) {
-			State state = new State(stateValue);
-			states.add(state);
+			states.add(stateValue);
 		}
 		
 		return states;
@@ -108,8 +95,11 @@ public class SimEnkaInputReader {
 		
 		simulatorDefinitions.setAlphabet(alphabet);
 		simulatorDefinitions.setInputSequences(inputSequences);
+		
 		simulatorDefinitions.setStartingState(startingState);
 		simulatorDefinitions.setStates(states);
+		simulatorDefinitions.setAcceptableStates(acceptableStates);
+		
 		simulatorDefinitions.setTransitions(transitions);
 		
 		return simulatorDefinitions;
