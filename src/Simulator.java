@@ -26,7 +26,7 @@ public class Simulator {
 			currentStates.add(simulatorDefinitions.getStartingState());
 			
 			currentStates = makeEpsilonTransitions(currentStates);
-			System.out.print(statesTextFormatting(currentStates, true));
+			System.out.print(statesTextFormatting(currentStates));
 			
 			List<String> alphabet = inputSequence.getAlphabet();
 			for(String symbol : alphabet) {
@@ -37,7 +37,7 @@ public class Simulator {
 				
 				// Add all other states available through epsilon transitions
 				nextStates = makeEpsilonTransitions(nextStates);
-				System.out.print(OUTPUT_STATE_LISTS_SEPARATOR + statesTextFormatting(nextStates, true));
+				System.out.print(OUTPUT_STATE_LISTS_SEPARATOR + statesTextFormatting(nextStates));
 				
 				currentStates = nextStates;
 			}
@@ -74,17 +74,14 @@ public class Simulator {
 		return finalStates;
 	}
 	
-	private String statesTextFormatting(Set<String> statesSet, boolean orderBeforePrint) {
+	private String statesTextFormatting(Set<String> statesSet) {
 		if(statesSet.size() == 0) {
 			statesSet.add(OUTPUT_SYMBOL_FOR_EMPTY_STATE_LIST);
 		}
 		
 		List<String> states = new ArrayList<String>();
 		states.addAll(statesSet);
-		
-		if(orderBeforePrint) {
-			Collections.sort(states);
-		}
+		Collections.sort(states);
 		
 		String line = "";
 		line += states.get(0);

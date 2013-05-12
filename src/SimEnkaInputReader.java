@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class SimEnkaInputReader {
 
+	private static final String EMPTY_SET = "#";
+	
 	private List<InputSequence> inputSequences;
 
 	private String startingState;
@@ -44,7 +46,9 @@ public class SimEnkaInputReader {
 			List<String> endStates = Arrays.asList(splitByArrow[1].split(","));
 			
 			for(String endState : endStates) {
-				transitions.add(new Transition(startState, symbol, endState));
+				if(!endState.equals(EMPTY_SET)) {
+					transitions.add(new Transition(startState, symbol, endState));
+				}
 			}
 		}
 		

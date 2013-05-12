@@ -9,11 +9,19 @@ public class SimEnka {
 	private final static boolean DEBUG = false;
 	
 	public static void main(String[] args) {
-		simEnka(System.in);
+		if(DEBUG) {
+			simEnka("exampleInput.txt");
+		} else {
+			simEnka(System.in);
+		}
 	}
 
-	public static void simEnka(String fileName) throws FileNotFoundException {
-		simEnka(new FileInputStream(new File(fileName)));
+	public static void simEnka(String fileName) {
+		try {
+			simEnka(new FileInputStream(new File(fileName)));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void simEnka(InputStream is) {
@@ -26,13 +34,18 @@ public class SimEnka {
 		
 		SimulatorDefinitions simulatorDefinitions = inputReader.generateSimulatorDefinitions();
 
+		if(DEBUG) {
+			simulatorDefinitions.print();
+			System.out.println();
+		}
+		
 		long start = System.currentTimeMillis();
 		
 		Simulator simulator = new Simulator(simulatorDefinitions);
 		simulator.run();
 
 		if(DEBUG) {
-			simulatorDefinitions.print();
+			System.out.println();
 			System.out.println((System.currentTimeMillis()-start)/1000.0);
 		}
 	}
