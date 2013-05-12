@@ -13,7 +13,7 @@ Input file consists of minimum 5 rows in this specific order:
 3. line - lexicographically sorted symols of the alphabet separated with `,`
 4. line - lexicographically sorted acceptable states separated with `,`
 5. line - starting state
-6. line and all other rows - transition function in format `currentState,alphabetSymbol->collectionOfNextStates`. Epsilon transition is marked with `$`.
+6. line and all other lines - transition function in format `currentState,alphabetSymbol->collectionOfNextStates`. Epsilon transition is marked with `$`.
 Empty collection of next states is marked with `#`.
 
 Input
